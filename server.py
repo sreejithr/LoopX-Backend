@@ -23,7 +23,7 @@ def generate_result(video, stream):
     }
 
 @app.route("/audio/<id>")
-def get_youtube_url(id):
+def get_audio_url(id):
     url = "https://www.youtube.com/watch?v=" + id
     video = pafy.new(url)
     stream = video.getbestaudio()
@@ -33,7 +33,7 @@ def get_youtube_url(id):
     )
 
 @app.route("/video/<id>")
-def get_youtube_url(id):
+def get_video_url(id):
     url = "https://www.youtube.com/watch?v=" + id
     video = pafy.new(url)
     stream = video.getbestvideo()
