@@ -36,11 +36,18 @@ def get_audio_url(id):
 def get_video_url(id):
     url = "https://www.youtube.com/watch?v=" + id
     video = pafy.new(url)
-    stream = video.getbestvideo()
-    return Response(
-        json.dumps(generate_result(video, stream)),
-        mimetype="application/json", status=200
-    )
+    streams = filter(lambda x: x.extension == 'mp4', video.streams)
+    if len(streams) > 0:
+        stream = streams[0]
+        return Response(
+            json.dumps(generate_result(video, stream)),
+            mimetype="application/json", status=200
+        )
+    else:
+        return Response(
+            json.dumps({"error": "Cannot get video stream"}),
+            mimetype="application/json", status=500
+        )
 
 if __name__ == "__main__":
     app.run()
