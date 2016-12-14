@@ -22,11 +22,21 @@ def generate_result(video, stream):
         "url": stream.url
     }
 
-@app.route("/<id>")
+@app.route("/audio/<id>")
 def get_youtube_url(id):
     url = "https://www.youtube.com/watch?v=" + id
     video = pafy.new(url)
     stream = video.getbestaudio()
+    return Response(
+        json.dumps(generate_result(video, stream)),
+        mimetype="application/json", status=200
+    )
+
+@app.route("/video/<id>")
+def get_youtube_url(id):
+    url = "https://www.youtube.com/watch?v=" + id
+    video = pafy.new(url)
+    stream = video.getbestvideo()
     return Response(
         json.dumps(generate_result(video, stream)),
         mimetype="application/json", status=200
